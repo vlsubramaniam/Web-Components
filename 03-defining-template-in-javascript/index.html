@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Web Components</title>
+    <script src="tooltip.js"></script>
+    <style>
+      div {
+        background-color: aqua;
+        border: 2px solid orange;
+      }
+    </style>
+  </head>
+  <body>
+    <div>This is a DIV from actual DOM</div>
+    <p>
+      <uc-tooltip text="Web Components is a set of standards...">
+        Webcomponents
+      </uc-tooltip>
+      are awesome!
+    </p>
+    <p><uc-tooltip></uc-tooltip> slot text</p>
+    <!-- There should not be a gap eg: (wrong: <uc-tooltip> </uc-tooltip> | correct: <uc-tooltip></uc-tooltip>) otherwise default slot text isnt working -->
+  </body>
+</html>
