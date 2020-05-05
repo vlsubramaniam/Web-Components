@@ -5,18 +5,18 @@ class ToggleInfo extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = `   
             <style>
-            #info-box {
-                display: none;
-              }
+                  #info-box {
+                      display: none;
+                    }
 
-              button {
-                font-size:14pt;
-                border: 1px solid black;
-                outline: none;
-                border-radius: 15px;
-                width: 200px;
-                height: 50px;
-              }
+                  button {
+                      font-size:14pt;
+                      border: 1px solid black;
+                      outline: none;
+                      border-radius: 15px;
+                      width: 200px;
+                      height: 50px;
+                    }
             </style>   
 
             <button> Show Info </button> 
