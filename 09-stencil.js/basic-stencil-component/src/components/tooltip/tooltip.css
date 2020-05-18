@@ -1,0 +1,28 @@
+#tooltip {
+  margin-top: 1rem;
+}
+
+#tooltip-icon {
+  background: black;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #ccc;
+  padding: 0.75rem;
+}
+
+#tooltip-text {
+  margin: 1rem;
+  background: black;
+  display: block;
+  color: white;
+  text-align: center;
+  width: 25%;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+}
+
+.showTooltip {
+  padding: 0.25rem;
+}
