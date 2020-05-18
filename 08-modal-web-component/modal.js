@@ -49,9 +49,7 @@ class Modal extends HTMLElement {
 
                           ::slotted(h1), header h1 {
                             font-size: 1.2rem;
-                          }
-
-                         
+                          }                         
 
                          #main {
                             padding: 1rem;
@@ -80,11 +78,28 @@ class Modal extends HTMLElement {
                             <slot></slot>
                           </section>
                           <section id="actions">
-                            <button>Cancel</button>
-                            <button>Ok</button>
+                            <button id="btn-cancel">Cancel</button>
+                            <button id="btn-ok">Ok</button>
                           </section>
                       </div>
     `;
+    const slots = this.shadowRoot.querySelectorAll('slot');
+    slots[1].addEventListener('slotchange', (event) => {
+      console.dir(slots[1].assignedNodes());
+    });
+
+    const cancelButton = this.shadowRoot.getElementById('btn-cancel');
+    const confirmButton = this.shadowRoot.getElementById('btn-ok');
+
+    cancelButton.addEventListener('click', this._cancel.bind(this));
+    confirmButton.addEventListener('click', this._confirm.bind(this));
+  }
+
+  connectedCallback() {
+    if (this.hasAttribute('confirmText')) {
+      const button = this.shadowRoot.getElementById('btn-ok');
+      button.innerText = this.getAttribute('confirmText');
+    }
   }
 
   // attributeChangedCallback(name, oldValue, newValue) {
@@ -97,10 +112,6 @@ class Modal extends HTMLElement {
   //     }
   //   }
   // }
-
-  static get observedAttributes() {
-    return ['opened'];
-  }
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (this.hasAttribute('opened')) {
@@ -117,6 +128,23 @@ class Modal extends HTMLElement {
   open() {
     this.setAttribute('opened', '');
     this.isOpen = true;
+  }
+
+  hide() {
+    this.removeAttribute('opened');
+    this.isOpen = false;
+  }
+
+  _cancel(event) {
+    this.hide();
+    const cancelEvent = new Event('cancel', { bubbles: true, composed: true });
+    event.target.dispatchEvent(cancelEvent);
+  }
+
+  _confirm() {
+    this.hide();
+    const confirmEvent = new Event('confirm');
+    this.dispatchEvent(confirmEvent);
   }
 }
 
