@@ -7,11 +7,64 @@
       content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
     />
     <title>Stencil Component Starter</title>
+    <style>
+      body {
+        font-family: sans-serif;
+      }
 
+      .side-nav ul {
+        list-style: none;
+      }
+
+      .side-nav li {
+        margin: 1rem 0;
+        text-align: center;
+      }
+
+      .side-nav a {
+        text-decoration: none;
+        color: orangered;
+      }
+
+      #btn-side-drawer {
+        border: none;
+        border-radius: 10%;
+        outline: none;
+        background: blue;
+        color: white;
+        padding: 1rem;
+      }
+    </style>
     <script type="module" src="/build/basic-stencil-component.esm.js"></script>
     <script nomodule src="/build/basic-stencil-component.js"></script>
   </head>
   <body>
-    <side-drawer></side-drawer>
+    <button id="btn-side-drawer">Side Drawer</button>
+    <side-drawer title="Main Menu">
+      <nav class="side-nav">
+        <ul>
+          <li>
+            <a href="https://www.google.co.in" target="_blank">Google</a>
+          </li>
+          <li>
+            <a href="https://github.com/vlsubramaniam" target="_blank"
+              >GitHub</a
+            >
+          </li>
+          <li>
+            <a href="https://www.udemy.com/" target="_blank">Udemy</a>
+          </li>
+        </ul>
+      </nav>
+    </side-drawer>
+    <script>
+      const btnSideDrawer = document.getElementById("btn-side-drawer");
+      const menuSideDrawer = document.querySelector("side-drawer");
+      btnSideDrawer.addEventListener("click", () => {
+        if (!menuSideDrawer.opened) {
+          menuSideDrawer.open();
+        }
+      });
+    </script>
   </body>
 </html>
