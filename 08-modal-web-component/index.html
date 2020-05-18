@@ -28,33 +28,29 @@
       <p>With your confirmation you agree to pay the full amount</p>
     </uc-modal>
     <div id="modal-result"></div>
+
     <script>
       const confirmButton = document.querySelector('button');
       const modal = document.querySelector('uc-modal');
       const modalResult = document.getElementById('modal-result');
+
       confirmButton.addEventListener('click', () => {
         // modal.setAttribute('opened', '');
         if (!modal.isOpen) {
           modal.open();
         }
       });
+
       modal.addEventListener('cancel', () => {
         modalResult.style.display = 'block';
         modalResult.style.color = 'red';
         modalResult.textContent = 'Payment Cancelled!!!';
-
-        setTimeout(() => {
-          modalResult.style.display = 'none';
-        }, 5000);
       });
+
       modal.addEventListener('confirm', () => {
         modalResult.style.display = 'block';
         modalResult.style.color = 'blue';
         modalResult.textContent = 'Payment Confirmed!!!';
-
-        setTimeout(() => {
-          modalResult.style.display = 'none';
-        }, 5000);
       });
     </script>
   </body>

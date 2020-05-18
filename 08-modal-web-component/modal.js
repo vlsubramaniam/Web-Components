@@ -17,19 +17,19 @@ class Modal extends HTMLElement {
                             pointer-events: none;
                           }
 
-                          :host([opened]) #backdrop {
+                          :host([opened]) #backdrop, :host([opened]) #modal {
                             opacity: 1;
                             pointer-events: all;
                           }
 
                           :host([opened]) #modal {
-                            opacity: 1;
-                            pointer-events: all;
+                            top: 15vh;
+
                           }
 
                           #modal {
                             position: fixed;
-                            top: 15vh;
+                            top: 10vh;
                             left: 25%;
                             width: 50%;
                             z-index: 100;
@@ -41,14 +41,17 @@ class Modal extends HTMLElement {
                             justify-content: space-between;
                             opacity: 0;
                             pointer-events: none;
+                            transition: all 0.3s ease-out;
                           }
 
                           header {
                             padding: 1rem;
+                            border-bottom: 1px solid #ccc;
                           }
 
                           ::slotted(h1), header h1 {
                             font-size: 1.2rem;
+                            margin: 0;
                           }                         
 
                          #main {
