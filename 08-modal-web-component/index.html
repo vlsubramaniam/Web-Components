@@ -3,10 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Modal Web Component</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Modal Web Components</title>
     <script src="modal.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 2rem;
+        font-family: sans-serif;
+      }
+    </style>
   </head>
   <body>
-    <uc-modal></uc-modal>
+    <p>Please confirm your choice.</p>
+    <button>Show Details & Confirm</button>
+    <uc-modal>
+      <h1 slot="title">Please Confirm your Payment</h1>
+      <p>With your confirmation you agree to pay the full amount</p>
+    </uc-modal>
+
+    <script>
+      const confirmButton = document.querySelector('button');
+      const modal = document.querySelector('uc-modal');
+      confirmButton.addEventListener('click', () => {
+        // modal.setAttribute('opened', '');
+        if (!modal.isOpen) {
+          modal.open();
+        }
+      });
+    </script>
   </body>
 </html>
