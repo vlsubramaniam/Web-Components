@@ -1,4 +1,4 @@
-import { Component, h, State, Element } from "@stencil/core";
+import { Component, h, State, Element, Prop, Watch } from "@stencil/core";
 import { AV_API_KEY } from "../../shared/global";
 
 @Component({
@@ -7,12 +7,22 @@ import { AV_API_KEY } from "../../shared/global";
   shadow: true,
 })
 export class StockPrice {
-  @State() fetchedPrice: number;
   @Element() el: HTMLElement;
   stockInput: HTMLInputElement;
+
+  @State() fetchedPrice: number;
   @State() stockUserInput: string;
   @State() isValidInput = false;
   @State() errMessage: string;
+
+  @Prop({ mutable: true, reflectToAttr: true }) stockSymbol: string;
+  @Watch("stockSymbol")
+  stockSymbolChanged(newValue: string, oldValue: string) {
+    if (newValue !== oldValue) {
+      this.stockUserInput = newValue;
+      this.fetchStockPrice(newValue);
+    }
+  }
 
   onUserInut(e: Event): void {
     this.stockUserInput = (e.target as HTMLInputElement).value;
@@ -29,7 +39,12 @@ export class StockPrice {
     // const stockSymbol = (this.el.shadowRoot.querySelector(
     //   "#stock-symbol"
     // ) as HTMLInputElement).value;
-    const stockSymbol = this.stockInput.value;
+    // const stockSymbol = this.stockInput.value;
+    this.stockSymbol = this.stockInput.value;
+    // this.fetchStockPrice(stockSymbol);
+  }
+
+  fetchStockPrice(stockSymbol: string) {
     fetch(
       `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`
     )
@@ -47,6 +62,34 @@ export class StockPrice {
       })
       .catch((err) => (this.errMessage = err));
   }
+
+  componentWillLoad(): void {
+    console.log("componentWillLoad");
+  }
+
+  componentDidLoad(): void {
+    console.log("componentDidLoad");
+    if (this.stockSymbol) {
+      this.stockUserInput = this.stockSymbol;
+      this.isValidInput = true;
+      this.fetchStockPrice(this.stockSymbol);
+    }
+  }
+
+  componentWillUpdate(): void {
+    console.log("componentWillUpdate");
+    if (this.stockSymbol) {
+    }
+  }
+
+  componentDidUpdate(): void {
+    console.log("componentDidUpdate");
+  }
+
+  componentDidUnload(): void {
+    console.log("componentDidUnload");
+  }
+
   render() {
     let dataContent = <p>Please enter a symbol</p>;
     if (this.errMessage) {
