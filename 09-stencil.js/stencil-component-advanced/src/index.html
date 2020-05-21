@@ -15,7 +15,11 @@
     <script nomodule src="/build/stencil-component-advanced.js"></script>
   </head>
   <body>
-    <stock-price stock-symbol="AAPL"></stock-price>
+    <stock-price stock-symbol="GOOGL"></stock-price>
     <stock-finder></stock-finder>
+    <script>
+      const stockFinder = document.querySelector("stock-finder");
+      stockFinder.addEventListener("symbolSelected", (e) => console.log(e));
+    </script>
   </body>
 </html>
