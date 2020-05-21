@@ -22,6 +22,7 @@ export class StockPrice {
   @State() stockUserInput: string;
   @State() isValidInput = false;
   @State() errMessage: string;
+  @State() loading = false;
 
   @Prop({ mutable: true, reflectToAttr: true }) stockSymbol: string;
   @Watch("stockSymbol")
@@ -31,6 +32,10 @@ export class StockPrice {
       this.isValidInput = true;
       this.fetchStockPrice(newValue);
     }
+  }
+
+  hostData() {
+    return { class: this.errMessage ? "error" : "" };
   }
 
   onUserInut(e: Event): void {
@@ -54,11 +59,13 @@ export class StockPrice {
   }
 
   fetchStockPrice(stockSymbol: string) {
+    this.loading = true;
     fetch(
       `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`
     )
       .then((res) => {
         if (res.status !== 200) {
+          this.loading = false;
           throw new Error("Invalid Response!!!");
         }
         return res.json();
@@ -68,8 +75,13 @@ export class StockPrice {
           throw new Error("Invalid Symbol!!!");
         }
         this.fetchedPrice = +data["Global Quote"]["05. price"];
+        this.loading = false;
       })
-      .catch((err) => (this.errMessage = err));
+      .catch((err) => {
+        this.errMessage = err;
+        this.fetchedPrice = null;
+        this.loading = false;
+      });
   }
 
   componentWillLoad(): void {
@@ -114,6 +126,9 @@ export class StockPrice {
     }
     if (this.fetchedPrice) {
       dataContent = <p>Price: ${this.fetchedPrice ? this.fetchedPrice : 0}</p>;
+    }
+    if (this.loading) {
+      dataContent = <uc-spinner />;
     }
     return [
       <form onSubmit={this.onFetchStockPrice.bind(this)}>
